@@ -21,10 +21,10 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("school/",include("schoolVisit.urls")),
-    
-    path('school/login/', TokenObtainPairView.as_view()),
-    path('school/refresh/', TokenRefreshView.as_view()),    
+   
 ]
