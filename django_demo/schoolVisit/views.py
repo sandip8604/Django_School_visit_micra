@@ -1,7 +1,9 @@
-from rest_framework import viewsets
+from rest_framework import viewsets,filters
 from rest_framework.permissions import IsAuthenticated,AllowAny
 
-from .permission import IsAdminRole,IsStaffRole
+from schoolVisit.pagination import SchoolPagination
+
+from .permission import IsStaffRole,IsAdminRole
 from .models import School, Visit, User
 from .serializers import SchoolSerializer, VisitSerializer, UserSerializer,SignupSerializer,LoginSerializer
 from rest_framework.response import Response
@@ -17,6 +19,9 @@ class SchoolViewSet(viewsets.ModelViewSet):
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
     permission_classes = [IsAuthenticated,IsStaffRole]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'city', 'principal']
+    pagination_class = SchoolPagination
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -68,7 +73,7 @@ class LoginView(APIView):
         
         
 @api_view(['GET'])
-@permission_classes([IsStaffRole])
+@permission_classes([IsAdminRole])
 def dashboard(request):
     total_schools = School.objects.count()
     total_visits = Visit.objects.count()

@@ -14,11 +14,11 @@ class School(models.Model):
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **extra_fields):
         user = self.model(username=username, email=email, **extra_fields)
-        user.set_password(password)   # ✅ hashes the password
+        user.set_password(password)   
         user.save(using=self._db)
         return user
     
-class User(AbstractBaseUser):         # ✅ NOT models.Model
+class User(AbstractBaseUser):       
     ROLE_CHOICES = [
         ('admin', 'Admin'),
         ('staff', 'Staff'),
@@ -28,11 +28,12 @@ class User(AbstractBaseUser):         # ✅ NOT models.Model
     last_name  = models.CharField(max_length=50)
     email      = models.EmailField()
     role       = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    profile_image = models.TextField(null=True, blank=True)
     is_active  = models.BooleanField(default=True)
 
     objects = UserManager()
 
-    USERNAME_FIELD  = 'username'       # ✅ field used for login
+    USERNAME_FIELD  = 'username'     
     REQUIRED_FIELDS = ['email']
     
 

@@ -6,7 +6,7 @@ from .models import School, Visit ,User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'email','role']
+        fields = ['id', 'username', 'first_name', 'last_name', 'email','role','profile_image']
     
 
 
@@ -37,7 +37,7 @@ class SignupSerializer(serializers.ModelSerializer):
         ]
     
     def create(self, validated_data):
-        return User.objects.create_user(  # ✅ calls set_password() automatically
+        return User.objects.create_user( 
         username=validated_data['username'],
         email=validated_data['email'],
         password=validated_data['password'],
